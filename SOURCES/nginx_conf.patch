@@ -1,0 +1,25 @@
+--- auto/lib/openssl/conf.orig	2017-11-09 09:21:34.837006164 +0300
++++ auto/lib/openssl/conf	2017-11-09 09:22:14.186013104 +0300
+@@ -65,6 +65,22 @@
+ 
+         if [ $ngx_found = no ]; then
+ 
++            # CryptoPro port
++
++            ngx_feature="OpenSSL library in /opt/cprocsp/cp-openssl/"
++            ngx_feature_path="/opt/cprocsp/cp-openssl/include"
++
++            if [ $NGX_RPATH = YES ]; then
++                ngx_feature_libs="-R/opt/cprocsp/cp-openssl/lib/amd64 -L/opt/cprocsp/cp-openssl/lib/amd64 -lssl -lcrypto $NGX_LIBDL"
++            else
++                ngx_feature_libs="-L/opt/cprocsp/cp-openssl/lib/amd64 -lssl -lcrypto $NGX_LIBDL"
++            fi
++
++            . auto/feature
++        fi
++
++        if [ $ngx_found = no ]; then
++
+             # FreeBSD port
+ 
+             ngx_feature="OpenSSL library in /usr/local/"
